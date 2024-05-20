@@ -4,24 +4,23 @@ import heapq
 def get_min_cost(wires):
     heapq.heapify(wires)
 
-    if not wires or len(wires) == 0:
-        return None
+    total_cost = 0
 
-    sums_of_connections = [0 for _ in range(len(wires) - 1)]
+    while len(wires) > 1:
+        first_min = heapq.heappop(wires)
+        second_min = heapq.heappop(wires)
 
-    prev = heapq.heappop(wires)
+        new_cable = first_min + second_min
 
-    for i in range(len(wires)):
-        cur = heapq.heappop(wires)
-        cost_of_connection = prev + cur
-        sums_of_connections[i] = cost_of_connection
-        prev = cost_of_connection
+        total_cost += new_cable
 
-    return sum(sums_of_connections)
+        heapq.heappush(wires, new_cable)
+
+    return total_cost
 
 
 if __name__ == "__main__":
-    l = [1, 3, 4, 2, 5, 9]
+    l = [ 1, 1, 9, 2, 1, 2]
 
     res = get_min_cost(l)
 
